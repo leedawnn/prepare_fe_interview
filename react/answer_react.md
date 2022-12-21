@@ -26,7 +26,7 @@
   - 부모가 함수를 넣어 props로 자식에게 넘겨주면, 자식이 데이터를 파라미터로 넣어 호출하는 방식으로 전달할 수 있다.
 
   ```typescript
-  import React, { useState } from "react";
+  import React, { useState } from 'react';
 
   function App() {
     return (
@@ -36,8 +36,8 @@
     );
   }
 
-  const Parent = props => {
-    const [data, setData] = useState("initial data");
+  const Parent = (props) => {
+    const [data, setData] = useState('initial data');
 
     return (
       <>
@@ -47,10 +47,10 @@
     );
   };
 
-  const Child = props => {
+  const Child = (props) => {
     return (
       <>
-        <button onClick={() => props.setData("data from child")}>send data to parent</button>
+        <button onClick={() => props.setData('data from child')}>send data to parent</button>
       </>
     );
   };
@@ -106,7 +106,7 @@
     - 마운트만 실행시키고 싶을 경우 : 두 번째 파라미터로 비어있는 배열을 넣어주면 된다.
       ```javascript
       useEffect(() => {
-        console.log("마운트될 때만 실행됩니다.");
+        console.log('마운트될 때만 실행됩니다.');
       }, []);
       ```
     - 특정 값이 업데이트될 때만 실행하고 싶을 경우 : 두 번째 파라미터로 전달되는 배열 안에 검사하고 싶은 값을 넣어주면 된다.
@@ -141,7 +141,15 @@
   - 사용해본 적은 없으나 useLayoutEffect에 대해서는 설명할 수 있습니다. useEffect와 useLayoutEffect 훅의 형태는 완전히 동일합니다.
 - **리액트의 성능개선 방법에 대해서 설명해주세요**
 
+  - hook 함수를 사용 (useMemo, useCallback)하거나 코드 스플리팅 (react.lazy(), Next.js 프레임워크 사용 등)을 하는 방법이 있습니다.
+  - Next.js는 코드 스플리팅(Code splitting)을 내장 지원한다. pages/ 경로에 있는 각 파일은 빌드 단계에서 자동으로 각각의 JavaScript 번들로 코드 스플릿된다.
+  - React.lazy
+    - React.lazy는 코드분할을 하게 해준다. 코드 분할은 앱을 "지연 로딩"하게 도와주고 사용자들에게 획기적인 성능 향상을 하게 해줍니다. 앱의 코드 양을 줄이지 않고도 사용자가 필요하지 않은 코드를 불러오지 않게 하며 앱의 초기화 로딩에 필요한 비용을 줄여준다. React.lazy는 아직 서버 사이드 렌더링을 하지 못 해서 서버사이드 렌더링을 위해서는 Loadable Components를 추천한다고 합니다.
+
 - **컴포넌트에서 이벤트를 실행시키기 위해서는 어떻게 핸들링해야 하나요**
+
+  - 이벤트로 설정할 함수를 호출하는 것이 아닌 직접 넣어 줄 때는 화살표 함수 문법을 사용하여 넣어 주어야 합니다.
+
 - **SPA가 뭔가요**
 
   - SPA의 단점

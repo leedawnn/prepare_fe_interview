@@ -518,34 +518,102 @@
 - REST API 🔥
 
   - REST API가 뭔가요?
+    - REST는 HTTP를 기반으로 클라이언트가 서버의 리소스에 접근하는 방식을 규정한 아키텍처이고, REST API는 REST를 기반으로 API를 규현한 것을 의미합니다. 더불어, REST의 기본 원칙을 성실히 지킨 서비스 디자인을 `RESTful`이라고 표현합니다.
   - REST API의 구성은 어떤 것이 있나요?
+    - REST API는 **1) 자원(resource) - URI(엔드 포인트)**, **2) 행위(verb) - HTTP 요청 메서드**, **3) 표현(representations) - 페이로드** 이렇게 3가지 요소로 구성됩니다.
   - REST API를 설계하는데 중요한 것이 있을까요?
-  - HTTP 요청 메서드에 대해서 아는대로 얘기해보세요
-  - HTTP 상태 코드를 아는대로 말해주세요 🔥
+
+    1. URI는 리소스를 표현해야하며, 이름은 동사보다는 명사를 사용한다.
+    2. 행위에 대한 정의는 HTTP 요청 메서드를 통해 해야한다.
+
+    ```text
+    # bad
+    GET /getTodos/1
+    GET /todos/show/1
+
+    # good
+
+    GET /todos/1
+    ```
+
+- HTTP 요청 메서드에 대해서 아는대로 얘기해보세요
+  1. GET : 모든/특정 리소스를 가져올 때
+  2. POST : 리소스를 생성
+  3. PUT : 리소스의 전체 교체
+  4. PATCH : 리소스 일부 수정
+  5. DELETE : 모든/특정 리소스 삭제
+- HTTP 상태 코드를 아는대로 말해주세요 🔥
+
+  - 200 : 요청이 성공적으로 보내졌음을 의미
+  - 400 : 잘못된 문법으로 인하여 서버가 요청을 이해할 수 없음을 의미
+  - 401 : 비인증(Unathorize)된 요청을 의미
+  - 403 : 콘텐츠에 접근할 권리가 없을 때
+  - 404 : URL이 잘못되었을 때
+  - 500 : 서버가 처리 방법을 모르는 상황을 의미
 
 - Promise 🔥
 
   - 콜백이란 뭐라고 생각하나요? 🔥
+    - 자바스크립트에서 콜백 함수는 다른 함수의 매개변수로 함수를 전달하고, 어떠한 이벤트가 발생한 후 매개변수로 전달한 함수가 다시 호출되는 것을 의미합니다. 비동기 방식의 함수라고 할 수 있습니다.
   - 프로미스가 뭔가요? 🔥
+    - Promise 객체는 ES6에서 도입된 비동기 처리에서 사용되는 객체. 주로 서버에서 받아온 데이터를 화면에 표시하기 위해서 사용하며 데이터를 받아오기도 전에 데이터를 화면에 표시하려고 하면 오류가 발생하거나 빈 화면이 뜨게 되는데, 이러한 문제를 해결하기 위한 방법 중 하나이다.
   - 프로미스 생성 방법
+    - Promise 생성자 함수를 new 연산자와 함께 호출하면 프로미스(Promise 객체)를 생성합니다. Promise 생성자 함수는 비동기 처리를 수행할 콜백 함수를 인수로 전달받는데 이 콜백 함수는 resolve와 reject 함수를 인수로 전달받습니다.
+      ```javascript
+      const promise = new Promise((resolve, reject) => {
+        if (/* 비동기 처리 성공 */) {
+          resolve('result');
+        } else { /* 비동기 처리 실패 */
+          reject('failure reason');
+        }
+      });
+      ```
   - 프로미스의 상태를 나타내는 것은 어떤 것들이 있나요? 🔥
+
+    - Pending(대기): 비동기 처리 로직이 아직 완료되지 않은 상태
+    - Fulfilled(이행): 비동기 처리가 완료되어 프로미스가 결과 값을 반환해 준 상태(resolve)
+    - Rejected(실패): 비동기 처리가 실패하거나 오류가 발생한 상태(reject)
+
   - 프로미스 빌트인 객체가 제공하는 정적 메서드에 대해 알고 있나요? 🔥
+
+    - Promise.all : Promise.all 메서드는 여러 개의 비동기 처리를 모두 병렬처리할 때 사용합니다.
+
+      ```javascript
+      const requestData1 = () => new Promise((resolve) => setTimeout(() => resolve(1), 3000));
+      const requestData2 = () => new Promise((resolve) => setTimeout(() => resolve(2), 2000));
+      const requestData3 = () => new Promise((resolve) => setTimeout(() => resolve(3), 1000));
+
+      Promise.all([requestData1(), requestData2(), requestData3()])
+        .then(console.log) // [ 1, 2, 3 ] ⇒ 약 3초 소요
+        .catch(console.error);
+      ```
 
 - 제너레이터와 async await 🔥
 
   - 제너레이터란 뭔가요? 일반 함수와는 어떤 차이가 있죠?
+    - ES6에서 도입된 제너레이터(generator)는 코드 블록의 실행을 일시 중지 (블로킹) 했다가 필요한 시점에 재개할 수 있는 특수한 함수입니다.
   - 제너레이터의 구조
+
+    - 제너레이터는 1) yield 키워드를 이용하여 함수 호출자에게 제어권을 양도(yield)하여 필요한 시점에 함수 실행을 재개할 수 있고, 2) next 메서드를 통해 제너레이터를 실행할 경우, 코드 블록 내에 yield 키워드 뒤에 오는 표현식의 평가 결과를 제너레이터 함수 호출자에게 리절트 객체형식으로 반환합니다.
+
   - async/await 가 뭔가요? 기존의 Promise와는 어떤 차이가 있죠? 🔥
+    - async/await는 프로미스를 기반으로 동작하기 때문에 프로미스의 then/catch/finally 등과 같은 후속 처리 메서드 없이 마치 동기 처리처럼 프로미스가 처리 결과를 반환하도록 구현할 수 있습니다.
   - Promise와 async/await의 차이점 한 줄 요약 🔥
+    - Promise를 활용할 때는 catch문을 통해 에러 핸들링을 해야 하지만, async/await는 try/catch 문을 통해 에러 처리를 할 수 있습니다. 또한 Promise는 then으로 받아올 때 콜백 지옥과 같이 코드가 더러워지기 쉽지만, async/await를 사용하면 가독성이 더 좋습니다.
 
 - 에러 🔥
 
   - 에러처리를 왜 해야 하나요?
+    - 소프트웨어의 비정상적인 동작에 대한 큰 사고로 이어지지 않도록 예방하기 위함입니다. 서비스 운영에 있어서는 사용자들이 서비스를 비정상적으로 사용하는 부분이 있는지 감지를 할 수 있습니다.
   - 자바스크립트에서 에러를 처리하는 방법에는 뭐가 있을까요?
+    1. try/catch/finally
+    2. Error 객체
+    3. throw 문
 
 - 모듈 🔥
 
   - 모듈이 뭔가요?
+    - 모듈(module)이란 애플리케이션을 구성하는 개별적 요소로서 재사용 가능한 코드 조각을 말합니다.
 
 ## 내가 뽑은 핵심 질문
 
